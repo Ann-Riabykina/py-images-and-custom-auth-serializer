@@ -122,7 +122,11 @@ class MovieViewSet(
         url_path="upload-image"
     )
     def upload_image(self, request, pk=None):
-        movie = self.get_object()
+        if pk is not None:
+            movie = Movie.objects.get(pk=pk)
+        else:
+            movie = self.get_object()
+
         serializer = MovieImageSerializer(
             movie, data=request.data, partial=True
         )
