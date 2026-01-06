@@ -1,4 +1,4 @@
-from contextvars import Token
+from rest_framework.authtoken.models import Token
 
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
