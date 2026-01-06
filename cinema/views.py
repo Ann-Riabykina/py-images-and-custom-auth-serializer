@@ -121,7 +121,7 @@ class MovieViewSet(
         parser_classes=[MultiPartParser, FormParser],
         url_path="upload-image"
     )
-    def upload_image(self, request):
+    def upload_image(self, request, pk=None):
         movie = self.get_object()
         serializer = MovieImageSerializer(
             movie, data=request.data, partial=True
