@@ -36,7 +36,8 @@ class Actor(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
-    
+
+
 def movie_image_upload_to(instance, filename):
     ext = os.path.splitext(filename)[1]
     return f"movies/{slugify(instance.title)}-{uuid.uuid4()}{ext}"

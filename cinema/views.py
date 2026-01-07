@@ -136,7 +136,8 @@ class MovieViewSet(
             return response.Response(
                 serializer.data, status=status.HTTP_200_OK
             )
-        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return response.Response(serializer.errors, 
+                                 status=status.HTTP_400_BAD_REQUEST)
 
 
 class MovieSessionViewSet(viewsets.ModelViewSet):
