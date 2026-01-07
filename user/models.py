@@ -7,8 +7,8 @@ from django.db import models
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, username=None, **extra_fields):
-        if not email:
-            raise ValueError("Email is required")
+        if username is None:
+            username = email
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, **extra_fields)
         user.set_password(password)

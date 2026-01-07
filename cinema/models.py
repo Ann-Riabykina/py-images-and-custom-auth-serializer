@@ -6,6 +6,11 @@ import uuid
 import os
 
 
+def movie_image_upload_to(instance, filename):
+    ext = os.path.splitext(filename)[1]
+    return f"movies/{slugify(instance.title)}-{uuid.uuid4()}{ext}"
+
+
 class CinemaHall(models.Model):
     name = models.CharField(max_length=255)
     rows = models.IntegerField()
@@ -36,11 +41,6 @@ class Actor(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
-
-
-def movie_image_upload_to(instance, filename):
-    ext = os.path.splitext(filename)[1]
-    return f"movies/{slugify(instance.title)}-{uuid.uuid4()}{ext}"
 
 
 class Movie(models.Model):
