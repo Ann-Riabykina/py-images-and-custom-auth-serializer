@@ -36,6 +36,10 @@ class Actor(models.Model):
     @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
+    
+def movie_image_upload_to(instance, filename):
+    ext = os.path.splitext(filename)[1]
+    return f"movies/{slugify(instance.title)}-{uuid.uuid4()}{ext}"
 
 
 class Movie(models.Model):
@@ -45,7 +49,7 @@ class Movie(models.Model):
     genres = models.ManyToManyField(Genre)
     actors = models.ManyToManyField(Actor)
     image = models.ImageField(
-        upload_to="uploads/movies/",
+        upload_to=movie_image_upload_to,
         null=True,
         blank=True
     )
@@ -55,12 +59,6 @@ class Movie(models.Model):
 
     def __str__(self):
         return self.title
-
-    def save(self, *args, **kwargs):
-        if self.image:
-            ext = os.path.splitext(self.image.name)[1]
-            self.image.name = f"{slugify(self.title)}-{uuid.uuid4()}{ext}"
-        super().save(*args, **kwargs)
 
 
 class MovieSession(models.Model):

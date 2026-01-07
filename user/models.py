@@ -1,11 +1,12 @@
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import (
+    AbstractUser,
+    BaseUserManager,
+)
 from django.db import models
 
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, username=None, **extra_fields):
-        if username is None:
-            username = email
         if not email:
             raise ValueError("Email is required")
         email = self.normalize_email(email)

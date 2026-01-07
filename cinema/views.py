@@ -1,10 +1,14 @@
 from datetime import datetime
 
 from django.db.models import F, Count
-from rest_framework import viewsets, mixins, status
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework import (
+    viewsets,
+    mixins,
+    status,
+    decorators,
+    response,
+    parsers
+)
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
@@ -114,28 +118,25 @@ class MovieViewSet(
 
         return MovieSerializer
 
-    @action(
+    @decorators.action(
         detail=True,
         methods=["POST"],
         permission_classes=[IsAdminOrIfAuthenticatedReadOnly],
-        parser_classes=[MultiPartParser, FormParser],
+        parser_classes=[parsers.MultiPartParser, parsers.FormParser],
         url_path="upload-image"
     )
     def upload_image(self, request, pk=None):
-        if pk is not None:
-            movie = Movie.objects.get(pk=pk)
-        else:
-            movie = self.get_object()
+        movie = self.get_object() if pk is None else Movie.objects.get(pk=pk)
 
         serializer = MovieImageSerializer(
             movie, data=request.data, partial=True
         )
         if serializer.is_valid():
             serializer.save()
-            return Response(
+            return response.Response(
                 serializer.data, status=status.HTTP_200_OK
             )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return response.Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MovieSessionViewSet(viewsets.ModelViewSet):
