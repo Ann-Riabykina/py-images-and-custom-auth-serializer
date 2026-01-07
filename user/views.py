@@ -11,12 +11,14 @@ from rest_framework import (
 
 from user.serializers import UserSerializer, AuthTokenSerializer
 
+from rest_framework.authtoken.views import ObtainAuthToken
+
 
 class CreateUserView(generics.CreateAPIView):
     serializer_class = UserSerializer
 
 
-class CreateTokenView(authtoken.ObtainAuthToken):
+class CreateTokenView(authtoken.views.ObtainAuthToken):
     serializer_class = AuthTokenSerializer
     renderer_classes = settings.api_settings.DEFAULT_RENDERER_CLASSES
 
